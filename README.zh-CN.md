@@ -26,6 +26,31 @@ Co., Ltd. 发行的基于 Wine 的 Windows 游戏启动器)在进入主界面前
 
 Steam 与 Epic 的认证不受影响,它们由内置客户端直接与各自的厂商通信。
 
+## 截图
+
+<table>
+  <tr>
+    <td align="center">
+      <b>初始状态(未登录)</b><br/>
+      <img src="./images/01-logged-out.png" alt="logged out" width="420"/>
+    </td>
+    <td align="center">
+      <b>登录界面:任意邮箱均可</b><br/>
+      <img src="./images/02-login-window.png" alt="login form" width="420"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <b>任意 6 位验证码即可登录成功</b><br/>
+      <img src="./images/03-login-success.png" alt="login success" width="420"/>
+    </td>
+    <td align="center">
+      <b>用户资料显示为 BioHaz616 / id 616</b><br/>
+      <img src="./images/04-logged-in.png" alt="logged in as BioHaz616" width="420"/>
+    </td>
+  </tr>
+</table>
+
 ## 为什么需要本工具
 
 GameHub 的 UI 基于 Tauri 2 webview。Vue 前端在构建时已将 API 基础

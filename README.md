@@ -31,6 +31,31 @@ locally so nothing leaks.
 Steam and Epic authentication are unaffected. Those run through the
 embedded clients and talk to their respective vendors directly.
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <b>Initial state (logged out)</b><br/>
+      <img src="./images/01-logged-out.png" alt="logged out" width="420"/>
+    </td>
+    <td align="center">
+      <b>Login form: any email is accepted</b><br/>
+      <img src="./images/02-login-window.png" alt="login form" width="420"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <b>Login succeeds with any 6-digit code</b><br/>
+      <img src="./images/03-login-success.png" alt="login success" width="420"/>
+    </td>
+    <td align="center">
+      <b>Profile served as BioHaz616 / id 616</b><br/>
+      <img src="./images/04-logged-in.png" alt="logged in as BioHaz616" width="420"/>
+    </td>
+  </tr>
+</table>
+
 ## Why this exists
 
 GameHub's UI sits in a Tauri 2 webview. The Vue frontend hardcodes the API
