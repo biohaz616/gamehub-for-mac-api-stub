@@ -208,23 +208,24 @@ with a real account.
 
 ## Architecture
 
-```
-+-----------------+     +------------------+     +---------------------+
-|  GameHub.app    |     |  /etc/hosts      |     |  gamehub-for-mac-api-stub       |
-|  (Tauri + Vue)  |fetch| routes xiaoji    |TLS  |  TLS terminator     |
-|                 |---->| to 127.0.0.1     |---->|  + handlers         |
-+-----------------+     +------------------+     +----------+----------+
-                                                            |
-                                       +--------------------+--------------------+
-                                       |                    |                    |
-                                auth + telemetry      catch-all (default)    -stub-only
-                                (always stubbed)            |                    |
-                                                strip PII headers          generic success
-                                                            |
-                                                  +---------v---------+
-                                                  |  real upstream    |
-                                                  |  (xiaoji.com)     |
-                                                  +-------------------+
+```mermaid
+flowchart TD
+    A["GameHub.app<br/><i>Tauri + Vue webview</i>"]
+    B["/etc/hosts<br/>routes xiaoji.com<br/>to 127.0.0.1"]
+    C["gamehub-for-mac-api-stub<br/>TLS terminator + handlers"]
+    D{"Route classifier"}
+    E["Always stubbed locally"]
+    F["Strip identifying headers"]
+    G["Generic success response"]
+    H[("Real upstream<br/>api.xiaoji.com")]
+
+    A -->|"fetch()"| B
+    B -->|"TLS"| C
+    C --> D
+    D -->|"auth + telemetry"| E
+    D -->|"default mode"| F
+    D -->|"-stub-only mode"| G
+    F -->|"forward"| H
 ```
 
 The TLS terminator uses `crypto/tls`'s `GetCertificate` callback, which fires

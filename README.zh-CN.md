@@ -192,23 +192,24 @@ mux.HandleFunc("GET /game/v1/some/new/path", func(w http.ResponseWriter, r *http
 
 ## 架构
 
-```
-+-----------------+     +------------------+     +---------------------+
-|  GameHub.app    |     |  /etc/hosts      |     |  gamehub-for-mac-api-stub       |
-|  (Tauri + Vue)  |fetch| routes xiaoji    |TLS  |  TLS terminator     |
-|                 |---->| to 127.0.0.1     |---->|  + handlers         |
-+-----------------+     +------------------+     +----------+----------+
-                                                            |
-                                       +--------------------+--------------------+
-                                       |                    |                    |
-                                auth + telemetry      catch-all (default)    -stub-only
-                                (always stubbed)            |                    |
-                                                strip PII headers          generic success
-                                                            |
-                                                  +---------v---------+
-                                                  |  real upstream    |
-                                                  |  (xiaoji.com)     |
-                                                  +-------------------+
+```mermaid
+flowchart TD
+    A["GameHub.app<br/><i>Tauri + Vue webview</i>"]
+    B["/etc/hosts<br/>将 xiaoji.com<br/>指向 127.0.0.1"]
+    C["gamehub-for-mac-api-stub<br/>TLS 终端 + 处理器"]
+    D{"路由分类"}
+    E["本地应答"]
+    F["剥离识别性请求头"]
+    G["返回通用成功响应"]
+    H[("真实上游<br/>api.xiaoji.com")]
+
+    A -->|"fetch()"| B
+    B -->|"TLS"| C
+    C --> D
+    D -->|"认证 + 遥测"| E
+    D -->|"默认模式"| F
+    D -->|"-stub-only 模式"| G
+    F -->|"转发"| H
 ```
 
 TLS 终端使用 `crypto/tls` 的 `GetCertificate` 回调,每次 ClientHello

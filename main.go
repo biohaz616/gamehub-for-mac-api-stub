@@ -83,6 +83,15 @@ var (
 	state   *fakeUser
 )
 
+// Synthetic identity returned to the application. Hardcoded to the project
+// author's handle so screenshots and demos read consistently. Edit these
+// constants if you want a different identity in your own deployment.
+const (
+	fakeUsername = "BioHaz616"
+	fakeNickname = "BioHaz616"
+	fakeUserID   = 616
+)
+
 func mintUser(email string) *fakeUser {
 	if email == "" {
 		email = "offline@local"
@@ -90,9 +99,10 @@ func mintUser(email string) *fakeUser {
 	now := time.Now().UnixMilli()
 	tok := fmt.Sprintf("OFFLINE-TOKEN-%d", now)
 	return &fakeUser{
-		ID: 1, UserID: 1,
-		Username: strings.SplitN(email, "@", 2)[0],
-		Nickname: "Offline",
+		ID:       fakeUserID,
+		UserID:   fakeUserID,
+		Username: fakeUsername,
+		Nickname: fakeNickname,
 		Email:    email,
 		Token:    tok,
 		IssuedAt: now,
